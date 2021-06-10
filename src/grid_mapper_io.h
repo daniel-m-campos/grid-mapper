@@ -8,7 +8,10 @@ namespace grid_mapper_io {
 using namespace grid_mapper;
 
 Measurement ReadMeasurement(std::ifstream& file_stream);
+
 Pose ReadPose(std::ifstream& file_stream);
+
+LogOddsGrid ReadGrid(const std::string& filename);
 
 };  // namespace grid_mapper_io
 

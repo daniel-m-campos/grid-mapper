@@ -25,3 +25,10 @@ TEST(TestGridMapperIO, TestReadPose) {
   Pose expected{1697590, 10, 0, 3600};
   ASSERT_EQ(actual, expected);
 }
+
+TEST(TestGridMapperIO, TestReadGrid) {
+  auto grid = ReadGrid("data/grid1.txt");
+  ASSERT_EQ(grid.size(), 300);
+  ASSERT_EQ(grid[0].size(), 150);
+  ASSERT_NEAR(grid[23][16], 19.6, 1e-6);
+}
