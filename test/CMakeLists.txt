@@ -9,6 +9,17 @@ FetchContent_MakeAvailable(googletest)
 add_executable(
         UNIT_TEST
         test.cpp
+        test_grid_mapper.cpp
+        test_grid_mapper_io.cpp
 )
 
-target_link_libraries(UNIT_TEST gtest gtest_main)
+target_link_libraries(
+        UNIT_TEST
+        gtest
+        gtest_main
+        MAPPER
+        MAPPER_IO
+        pthread
+)
+
+FILE(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
