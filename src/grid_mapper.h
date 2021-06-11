@@ -2,9 +2,15 @@
 #define BINARY_BAYES_FILTER_H_
 
 #include <vector>
+
 namespace grid_mapper {
 
-using LogOddsGrid = std::vector<std::vector<double>>;
+using OccupancyGrid = std::vector<std::vector<double>>;
+
+struct Coordinate {
+  double x;
+  double y;
+};
 
 struct Measurement {
   int timestamp;
@@ -25,11 +31,45 @@ struct Pose {
   bool operator!=(const Pose& rhs) const { return !(rhs == *this); }
 };
 
-void OccupancyGridMapping(Measurement measurement, Pose pose,
-                          LogOddsGrid& grid);
+class MapGrid {
+ public:
+  MapGrid(double cell_width, double cell_height, double map_width,
+          double map_height, double log_odds_unk);
+  Coordinate CellCenter(int i, int j) const;
+  OccupancyGrid& GetOccupancyGrid();
+  size_t SizeRows() const;
+  size_t SizeColumns() const;
 
-double InverseSensorModel(double x, double y, double theta, double xi,
-                          double yi, double sensor_data[]);
+ private:
+  double cell_width_;
+  double cell_height_;
+  double log_odds_unk_;
+  size_t num_rows_;
+  size_t num_columns_;
+  OccupancyGrid grid_;
+};
+
+class Robot {
+ public:
+  Robot(double width, double height, double range_min, double range_max);
+  const Pose& GetPose();
+  void SetPose(Pose new_pose);
+  Coordinate ToRobotFrame(const Coordinate& coordinate) const;
+  bool InRange(Coordinate coordinate) const;
+
+ private:
+  const double width_;
+  const double height_;
+  const double range_min_;
+  const double range_max_;
+  Pose pose_;
+};
+
+void UpdateOccupancyGrid(MapGrid& map_grid, Robot robot,
+                         const Measurement& measurement);
+
+double InverseSensorModel(const Pose& pose, Measurement measurement,
+                          Coordinate coordinate);
 }  // namespace grid_mapper
 
 #endif  // BINARY_BAYES_FILTER_H_
