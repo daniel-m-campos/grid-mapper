@@ -22,7 +22,7 @@ TEST(TestGridMapperIO, TestReadPose) {
     getline(file_stream, line);
   }
   auto actual = ReadPose(file_stream);
-  Pose expected{1697590, 10, 0, 3600};
+  Pose expected{1697590, 10, 0, (3600 / 10) * (M_PI / 180)};
   ASSERT_EQ(actual, expected);
 }
 

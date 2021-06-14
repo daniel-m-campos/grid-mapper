@@ -1,5 +1,6 @@
 #include "grid_mapper_io.h"
 
+#include <cmath>
 #include <sstream>
 
 grid_mapper::Measurement grid_mapper_io::ReadMeasurement(
@@ -27,7 +28,7 @@ grid_mapper::Pose grid_mapper_io::ReadPose(std::ifstream &file_stream) {
     if (not(string_stream >> timestamp >> x >> y >> theta))
       return grid_mapper::Pose();
   }
-  return grid_mapper::Pose{timestamp, x, y, theta};
+  return grid_mapper::Pose{timestamp, x, y, (theta / 10) * (M_PI / 180)};
 }
 
 grid_mapper::OccupancyGrid grid_mapper_io::ReadGrid(
