@@ -80,6 +80,7 @@ typedef double (*InverseSensorModel)(const Pose& pose,
                                      const Measurement& measurement,
                                      const Coordinate& coordinate,
                                      const SensorRange& sensor_range);
+
 void UpdateOccupancyGrid(MapGrid& map_grid, Robot robot,
                          const Measurement& measurement,
                          InverseSensorModel model = nullptr);
