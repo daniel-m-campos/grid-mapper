@@ -1,9 +1,15 @@
-#ifndef BINARY_BAYES_FILTER_H_
-#define BINARY_BAYES_FILTER_H_
+#ifndef GRID_MAPPER_H_
+#define GRID_MAPPER_H_
 
 #include <vector>
 
 namespace grid_mapper {
+
+struct DefaultLogOdds {
+  static constexpr double kUnknown = 0;
+  static constexpr double kOccupied = 0.4;
+  static constexpr double kFree = -0.4;
+};
 
 using OccupancyGrid = std::vector<std::vector<double>>;
 
@@ -34,7 +40,7 @@ struct Pose {
 class MapGrid {
  public:
   MapGrid(double cell_width, double cell_height, double map_width,
-          double map_height, double log_odds_unk);
+          double map_height);
   Coordinate CellCenter(int i, int j) const;
   OccupancyGrid& GetOccupancyGrid();
   size_t SizeRows() const;
@@ -49,10 +55,16 @@ class MapGrid {
   OccupancyGrid grid_;
 };
 
+struct SensorRange {
+  double range_min;
+  double range_max;
+};
+
 class Robot {
  public:
-  Robot(double width, double height, double range_min, double range_max);
+  Robot(double width, double height, SensorRange senor_range);
   const Pose& GetPose();
+  const SensorRange& GetSensorRange();
   void SetPose(Pose new_pose);
   Coordinate ToRobotFrame(const Coordinate& coordinate) const;
   bool InRange(Coordinate coordinate) const;
@@ -60,16 +72,22 @@ class Robot {
  private:
   const double width_;
   const double height_;
-  const double range_min_;
-  const double range_max_;
+  const SensorRange sensor_range_;
   Pose pose_;
 };
 
+typedef double (*InverseSensorModel)(const Pose& pose,
+                                     const Measurement& measurement,
+                                     const Coordinate& coordinate,
+                                     const SensorRange& sensor_range);
 void UpdateOccupancyGrid(MapGrid& map_grid, Robot robot,
-                         const Measurement& measurement);
+                         const Measurement& measurement,
+                         InverseSensorModel model = nullptr);
 
-double InverseSensorModel(const Pose& pose, Measurement measurement,
-                          Coordinate coordinate);
+double DefaultInverseSensorModel(const Pose& pose,
+                                 const Measurement& measurement,
+                                 const Coordinate& coordinate,
+                                 const SensorRange& sensor_range);
 }  // namespace grid_mapper
 
-#endif  // BINARY_BAYES_FILTER_H_
+#endif  // GRID_MAPPER_H_
