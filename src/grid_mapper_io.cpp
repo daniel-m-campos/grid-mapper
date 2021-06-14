@@ -30,7 +30,8 @@ grid_mapper::Pose grid_mapper_io::ReadPose(std::ifstream &file_stream) {
   return grid_mapper::Pose{timestamp, x, y, theta};
 }
 
-grid_mapper::OccupancyGrid grid_mapper_io::ReadGrid(const std::string &filename) {
+grid_mapper::OccupancyGrid grid_mapper_io::ReadGrid(
+    const std::string &filename) {
   std::ifstream file_stream{filename};
   grid_mapper::OccupancyGrid grid;
   if (not file_stream) return grid;
