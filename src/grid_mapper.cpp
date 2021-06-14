@@ -26,9 +26,9 @@ grid_mapper::OccupancyGrid& grid_mapper::MapGrid::GetOccupancyGrid() {
   return grid_;
 }
 
-void grid_mapper::UpdateOccupancyGrid(
-    grid_mapper::MapGrid& map_grid, Robot robot,
-    const grid_mapper::Measurement& measurement, InverseSensorModel model) {
+void grid_mapper::UpdateOccupancyGrid(MapGrid& map_grid, Robot robot,
+                                      const Measurement& measurement,
+                                      InverseSensorModel model) {
   if (not model) model = DefaultInverseSensorModel;
 
   for (int i = 0; i < map_grid.SizeRows(); ++i) {
@@ -94,20 +94,18 @@ double grid_mapper::DefaultInverseSensorModel(const Pose& pose,
 grid_mapper::Robot::Robot(double width, double height, SensorRange senor_range)
     : width_{width}, height_{height}, sensor_range_{senor_range}, pose_{} {}
 
-bool grid_mapper::Robot::InRange(grid_mapper::Coordinate coordinate) const {
+bool grid_mapper::Robot::InRange(Coordinate coordinate) const {
   const auto d =
       sqrt(pow(coordinate.x - pose_.x, 2) + pow(coordinate.y - pose_.y, 2));
   return d <= sensor_range_.range_max;
 }
 
-void grid_mapper::Robot::SetPose(grid_mapper::Pose new_pose) {
-  pose_ = new_pose;
-}
+void grid_mapper::Robot::SetPose(Pose new_pose) { pose_ = new_pose; }
 
 const grid_mapper::Pose& grid_mapper::Robot::GetPose() { return pose_; }
 
 grid_mapper::Coordinate grid_mapper::Robot::ToRobotFrame(
-    const grid_mapper::Coordinate& coordinate) const {
+    const Coordinate& coordinate) const {
   const auto x_prime = coordinate.x - width_;
   const auto y_prime = coordinate.y + height_;
   return {x_prime, y_prime};
