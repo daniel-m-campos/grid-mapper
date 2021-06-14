@@ -1,2 +1,3 @@
-# SLAM Example
-A simple binary Bayes filter example for SLAM
+# SLAM Binary Bayes Filter
+
+A small example of using a Binary Bayes Filter for SLAM
