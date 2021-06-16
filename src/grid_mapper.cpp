@@ -7,9 +7,9 @@ grid_mapper::MapGrid::MapGrid(double cell_width, double cell_height,
                               double map_width, double map_height)
     : cell_width_{cell_width},
       cell_height_{cell_height},
+      log_odds_unk_{DefaultLogOdds::kUnknown},
       num_rows_{static_cast<size_t>(ceil(map_width / cell_width))},
       num_columns_{static_cast<size_t>(ceil(map_height / cell_height))},
-      log_odds_unk_{DefaultLogOdds::kUnknown},
       grid_{num_rows_, std::vector<double>(num_columns_, log_odds_unk_)} {}
 
 grid_mapper::Coordinate grid_mapper::MapGrid::CellCenter(int i, int j) const {
@@ -31,8 +31,8 @@ void grid_mapper::UpdateOccupancyGrid(MapGrid& map_grid, Robot robot,
                                       InverseSensorModel model) {
   if (not model) model = DefaultInverseSensorModel;
 
-  for (int i = 0; i < map_grid.SizeRows(); ++i) {
-    for (int j = 0; j < map_grid.SizeColumns(); ++j) {
+  for (size_t i = 0; i < map_grid.SizeRows(); ++i) {
+    for (size_t j = 0; j < map_grid.SizeColumns(); ++j) {
       auto cell_center = map_grid.CellCenter(i, j);
       cell_center = robot.ToRobotFrame(cell_center);
       if (robot.InRange(cell_center)) {

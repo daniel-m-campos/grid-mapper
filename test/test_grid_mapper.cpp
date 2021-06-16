@@ -18,8 +18,8 @@ class MapperFixture : public ::testing::Test {
   void AssertEqual(const OccupancyGrid& actual, const OccupancyGrid& expected) {
     ASSERT_EQ(actual.size(), expected.size());
     ASSERT_EQ(actual[0].size(), expected[0].size());
-    for (int i = 0; i < expected.size(); ++i) {
-      for (int j = 0; j < expected[0].size(); ++j) {
+    for (size_t i = 0; i < expected.size(); ++i) {
+      for (size_t j = 0; j < expected[0].size(); ++j) {
         ASSERT_NEAR(actual[i][j], expected[i][j], 1e-6);
       }
     }
