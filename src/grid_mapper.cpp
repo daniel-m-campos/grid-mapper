@@ -26,7 +26,7 @@ grid_mapper::OccupancyGrid& grid_mapper::MapGrid::GetOccupancyGrid() {
   return grid_;
 }
 
-void grid_mapper::UpdateOccupancyGrid(MapGrid& map_grid, Robot robot,
+void grid_mapper::UpdateOccupancyGrid(MapGrid& map_grid, Robot& robot,
                                       const Measurement& measurement,
                                       InverseSensorModel model) {
   if (not model) model = DefaultInverseSensorModel;
