@@ -1,6 +1,6 @@
-# SLAM Binary Bayes Filter
+# Grid Mapper
 
-A small example of using a Binary Bayes Filter for SLAM
+A small example of using a Binary Bayes Filter for mapping an occupied grid.
 
 ## Example
 
