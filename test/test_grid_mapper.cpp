@@ -27,8 +27,8 @@ class MapperFixture : public ::testing::Test {
 };
 
 TEST_F(MapperFixture, DataTestWithConstantModel) {
-  std::ifstream pose_stream{"data/pose.txt"};
-  std::ifstream measurement_stream{"data/measurement.txt"};
+  std::ifstream pose_stream{"../data/pose.txt"};
+  std::ifstream measurement_stream{"../data/measurement.txt"};
 
   MapGrid map_grid{cell_width, cell_height, map_width, map_height};
   Robot robot{robot_width, robot_height, {range_min, range_max}};
@@ -41,13 +41,13 @@ TEST_F(MapperFixture, DataTestWithConstantModel) {
                         grid_mapper_io::ReadMeasurement(measurement_stream),
                         model);
   }
-  AssertEqual(map_grid.GetOccupancyGrid(), ReadGrid("data/grid1.txt"));
+  AssertEqual(map_grid.GetOccupancyGrid(), ReadGrid("../data/grid1.txt"));
 }
 
 TEST_F(MapperFixture, DataTestWithDefaultModel) {
-  std::ifstream pose_stream{"data/pose.txt"};
-  std::ifstream measurement_stream{"data/measurement.txt"};
-  auto expected = ReadGrid("data/grid2.txt");
+  std::ifstream pose_stream{"../data/pose.txt"};
+  std::ifstream measurement_stream{"../data/measurement.txt"};
+  auto expected = ReadGrid("../data/grid2.txt");
 
   MapGrid map_grid{cell_width, cell_height, map_width, map_height};
   Robot robot{robot_width, robot_height, {range_min, range_max}};
@@ -56,5 +56,5 @@ TEST_F(MapperFixture, DataTestWithDefaultModel) {
     UpdateOccupancyGrid(map_grid, robot,
                         grid_mapper_io::ReadMeasurement(measurement_stream));
   }
-  AssertEqual(map_grid.GetOccupancyGrid(), ReadGrid("data/grid2.txt"));
+  AssertEqual(map_grid.GetOccupancyGrid(), ReadGrid("../data/grid2.txt"));
 }

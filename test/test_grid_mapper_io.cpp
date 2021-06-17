@@ -7,7 +7,7 @@ using namespace grid_mapper;
 using namespace grid_mapper_io;
 
 TEST(TestGridMapperIO, TestReadMeasurement) {
-  std::ifstream file_stream{"data/measurement.txt"};
+  std::ifstream file_stream{"../data/measurement.txt"};
   auto actual = ReadMeasurement(file_stream);
   Measurement expected{1686487,
                        {5110, 5110, 2320, 2360, 5110, 5110, 2160, 1190}};
@@ -15,7 +15,7 @@ TEST(TestGridMapperIO, TestReadMeasurement) {
 }
 
 TEST(TestGridMapperIO, TestReadPose) {
-  std::ifstream file_stream{"data/pose.txt"};
+  std::ifstream file_stream{"../data/pose.txt"};
   std::string line;
   int line_number = 47;
   for (int i = 0; i < line_number; ++i) {
@@ -27,7 +27,7 @@ TEST(TestGridMapperIO, TestReadPose) {
 }
 
 TEST(TestGridMapperIO, TestReadGrid) {
-  auto grid = ReadGrid("data/grid1.txt");
+  auto grid = ReadGrid("../data/grid1.txt");
   ASSERT_EQ(grid.size(), 300);
   ASSERT_EQ(grid[0].size(), 150);
   ASSERT_NEAR(grid[23][16], 19.6, 1e-6);

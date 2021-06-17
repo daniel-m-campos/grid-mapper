@@ -1,4 +1,3 @@
-include(FetchContent)
 FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
@@ -12,14 +11,16 @@ add_executable(
         test_grid_mapper.cpp
         test_grid_mapper_io.cpp
 )
-
 target_link_libraries(
         UNIT_TEST
+        PRIVATE
+        pthread
         gtest
         gtest_main
         MAPPER
         MAPPER_IO
-        pthread
 )
-
-FILE(COPY data DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+if (BUILD_PLOTS)
+    target_sources(UNIT_TEST PRIVATE test_plot.cpp)
+    target_link_libraries(UNIT_TEST PRIVATE MATPLOTLIB)
+endif ()
