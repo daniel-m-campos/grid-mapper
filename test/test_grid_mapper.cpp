@@ -36,9 +36,8 @@ TEST_F(MapperFixture, DataTestWithConstantModel) {
                   const Coordinate& coordinate,
                   const SensorRange& sensor_range) -> double { return 0.4; };
   while (pose_stream.good() && measurement_stream.good()) {
-    robot.SetPose(grid_mapper_io::ReadPose(pose_stream));
-    UpdateOccupancyGrid(map_grid, robot,
-                        grid_mapper_io::ReadMeasurement(measurement_stream),
+    robot.SetPose(ReadPose(pose_stream));
+    UpdateOccupancyGrid(map_grid, robot, ReadMeasurement(measurement_stream),
                         model);
   }
   AssertEqual(map_grid.GetOccupancyGrid(), ReadGrid("../data/grid1.txt"));
@@ -52,9 +51,8 @@ TEST_F(MapperFixture, DataTestWithDefaultModel) {
   MapGrid map_grid{cell_width, cell_height, map_width, map_height};
   Robot robot{robot_width, robot_height, {range_min, range_max}};
   while (pose_stream.good() && measurement_stream.good()) {
-    robot.SetPose(grid_mapper_io::ReadPose(pose_stream));
-    UpdateOccupancyGrid(map_grid, robot,
-                        grid_mapper_io::ReadMeasurement(measurement_stream));
+    robot.SetPose(ReadPose(pose_stream));
+    UpdateOccupancyGrid(map_grid, robot, ReadMeasurement(measurement_stream));
   }
   AssertEqual(map_grid.GetOccupancyGrid(), ReadGrid("../data/grid2.txt"));
 }
